@@ -1,0 +1,3 @@
+basic basic mvp: 
+-make a weather api call and display tempperature
+     and weather('raining, sunny, etc') in a div
