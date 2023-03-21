@@ -1,7 +1,19 @@
 <script>
+  /**
+   * @type {any}
+   */
   export let location;
+  /**
+   * @type {any}
+   */
   export let icon;
+  /**
+   * @type {any}
+   */
   export let currentTemp;
+  /**
+   * @type {any}
+   */
   export let description;
 </script>
 

@@ -1,13 +1,18 @@
 <script lang="ts">
   import { onMount } from "svelte";
+  import CurrentWeather from "./currentWeather.svelte";
   import "@picocss/pico";
-  import AccuWeatherClient from "accu-weather-api-wrapper";
+  import AccuWeatherClient, {
+    type IDailyForecastData,
+  } from "accu-weather-api-wrapper";
+  import Forecast from "./forecast.svelte";
 
   let currentWeather;
+  let forecastData: IDailyForecastData;
   let currentTemp: number;
   let location = "Portland, OR";
   let description: string;
-  let icon;
+  let icon: string;
   let getWeather = async () => {
     const weather = new AccuWeatherClient({
       apikey: "sbewALxc4hIHOgvHhG9kDWrsOKfpLoO7",
@@ -15,8 +20,10 @@
     //await weather.location.citySearch("Portland, or").then(console.log);
     // await weather.forecast.getDailyForecast(1, "350473").then(console.log);
     currentWeather = await weather.currentConditions.currentCondition("350473");
+    forecastData = await weather.forecast.getDailyForecast(5, "350473");
 
     console.log(currentWeather);
+    console.log(forecastData);
 
     currentTemp = currentWeather[0].Temperature.Imperial.Value;
     description = currentWeather[0].WeatherText;
@@ -30,34 +37,6 @@
   //TODO: Components: 'Current Weather' card (mvp on this page), '5 day forecast' card (5 smaller daily cards?)
 </script>
 
-<main class="container-fluid">
-  <article>
-    <header><h3>Weather in {location}</h3></header>
-    <div class="container">
-      <div class="outer">
-        <img src={icon} style="padding-right:10px;" />
-        <div class="inner">
-          <h2>{currentTemp}°f</h2>
-          <h3>{description}</h3>
-        </div>
-      </div>
-    </div>
-  </article>
-</main>
-
-<style>
-  .outer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    /* border: 1px solid black; */
-    text-align: right;
-  }
-  .inner {
-    display: grid;
-    text-align: center;
-  }
-  header {
-    text-align: center;
-  }
-</style>
+<CurrentWeather {location} {icon} {currentTemp} {description} />
+<!-- <h2>{forecastData["Headline"].Text}</h2> -->
+<Forecast {forecastData} />
