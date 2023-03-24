@@ -6,6 +6,7 @@
     type IDailyForecastData,
   } from "accu-weather-api-wrapper";
   import Forecast from "./forecast.svelte";
+  import ForecastDay from "./forecastDay.svelte";
 
   let currentWeather;
   let forecastData: IDailyForecastData;
@@ -17,13 +18,11 @@
     const weather = new AccuWeatherClient({
       apikey: "sbewALxc4hIHOgvHhG9kDWrsOKfpLoO7",
     });
-    //await weather.location.citySearch("Portland, or").then(console.log);
-    // await weather.forecast.getDailyForecast(1, "350473").then(console.log);
+
     currentWeather = await weather.currentConditions.currentCondition("350473");
     forecastData = await weather.forecast.getDailyForecast(5, "350473");
 
-    console.log(currentWeather);
-    console.log(forecastData);
+    //     console.log(forecastData);
 
     currentTemp = currentWeather[0].Temperature.Imperial.Value;
     description = currentWeather[0].WeatherText;
@@ -33,10 +32,17 @@
   onMount(() => getWeather());
 
   //TODO: detect location via ip address to get current weather?
-  //TODO: Fix the icon.
-  //TODO: Components: 'Current Weather' card (mvp on this page), '5 day forecast' card (5 smaller daily cards?)
+  //TODO: fix the onclick handler for the show more buttons
 </script>
 
-<CurrentWeather {location} {icon} {currentTemp} {description} />
-<!-- <h2>{forecastData["Headline"].Text}</h2> -->
-<Forecast {forecastData} />
+{#if currentWeather}
+  <CurrentWeather {location} {icon} {currentTemp} {description} />
+{:else}
+  <article aria-busy="true" />
+{/if}
+
+{#if forecastData}
+  <Forecast {forecastData} />
+{:else}
+  <article aria-busy="true" />
+{/if}

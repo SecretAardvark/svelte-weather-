@@ -21,6 +21,7 @@
 	"type": "module",
 	"dependencies": {
 		"@picocss/pico": "^1.5.7",
-		"accu-weather-api-wrapper": "^1.1.0"
+		"accu-weather-api-wrapper": "^1.1.0",
+		"moment": "^2.29.4"
 	}
 }
