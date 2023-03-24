@@ -31,8 +31,9 @@
 
   onMount(() => getWeather());
 
+  //MVP is basically finished here. It still needs some styling and a few more features:
   //TODO: detect location via ip address to get current weather?
-  //TODO: fix the onclick handler for the show more buttons
+  //TODO: Display more data when clicking on show more
 </script>
 
 {#if currentWeather}
